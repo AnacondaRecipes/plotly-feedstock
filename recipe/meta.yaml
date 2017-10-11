@@ -1,19 +1,21 @@
-{% set version = "2.0.15" %}
-{% set sha256 = "0ecd16a11778674c63615a590e22f79307801eaf009b399bf7e46c486dec8f99" %}
-{% set pkg_name = "plotly" %}
+{% set name = "plotly" %}
+{% set version = "2.1.0" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "ff6899dc11907b1efb944f79f9583b2e30ba2964bb009145f3580bf30b4d9ee4" %}
 
 package:
-  name: {{ pkg_name }}
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: plotly-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ pkg_name[0] }}/{{ pkg_name }}/{{ pkg_name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  fn: {{ name }}-{{ version }}.{{ file_ext }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  {{ hash_type }}: {{ hash_value }}
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -21,15 +23,31 @@ requirements:
     - setuptools
   run:
     - python
-    - setuptools
-    - requests
+    - decorator >=4.0.6
+    - nbformat >=4.2
     - pytz
+    - requests
     - six
-    - decorator
 
 test:
   imports:
     - plotly
+    - plotly.api
+    - plotly.api.v1
+    - plotly.api.v2
+    - plotly.dashboard_objs
+    # Requires numpy (optional)
+    #- plotly.figure_factory
+    - plotly.graph_objs
+    - plotly.grid_objs
+    #- plotly.matplotlylib
+    #- plotly.matplotlylib.mplexporter
+    #- plotly.matplotlylib.mplexporter.renderers
+    - plotly.offline
+    - plotly.plotly
+    - plotly.plotly.chunked_requests
+    # Requires IPython (optional)
+    #- plotly.widgets
 
 about:
   home: https://plot.ly/python/
