@@ -1,8 +1,8 @@
 {% set name = "plotly" %}
-{% set version = "2.1.0" %}
+{% set version = "2.2.2" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "ff6899dc11907b1efb944f79f9583b2e30ba2964bb009145f3580bf30b4d9ee4" %}
+{% set hash_value = "69b3e9a16e5c4c20ca7d3a552ad6aa76b0164f5ee16e979c4e8086afb66fe0a4" %}
 
 package:
   name: {{ name|lower }}
