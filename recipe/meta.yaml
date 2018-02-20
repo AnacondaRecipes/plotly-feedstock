@@ -21,11 +21,12 @@ requirements:
     - setuptools
   run:
     - python
-    - setuptools
-    - requests
+    - decorator >=4.0.6
+    - nbformat >=4.2
     - pytz
+    - requests
     - six
-    - decorator
+    - setuptools
 
 test:
   imports:
