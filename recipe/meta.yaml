@@ -1,11 +1,12 @@
+{% set name = "plotly" %}
 {% set version = "5.6.0" %}
 
 package:
-  name: plotly
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/p/plotly/plotly-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/plotly-{{ version }}.tar.gz
   sha256: d86e44ebde38f4753dff982ab9b5e03cf872aab8fdf53a403e999ed378154331
 
 build:
@@ -15,7 +16,7 @@ build:
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
     - setuptools >=40.8.0
     - wheel
@@ -26,13 +27,13 @@ requirements:
     # retrying requests
     - tenacity >=6.2.0
     # python 2 to 3 compatibility
-    - six ==1.15.0
+    - six >=1.15.0
 
 test:
   requires:
     - pip
     - {{ pin_compatible('numpy') }}
-    - matplotlib
+    - matplotlib-base
     - pandas
   commands:
     - pip check
@@ -51,9 +52,6 @@ test:
     - plotly.express.data
     - plotly.express.colors
     - plotly.graph_objects
-    - _plotly_utils
-    - _plotly_utils.colors
-    - _plotly_future_
 
 about:
   home: https://plot.ly/python/
