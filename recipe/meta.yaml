@@ -37,7 +37,6 @@ test:
   imports:
     - jupyterlab_plotly
     - plotly
-    - plotly.plotly
     - plotly.offline
     - plotly.io
     - plotly.matplotlylib
