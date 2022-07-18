@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "5.6.0" %}
+{% set version = "5.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: d86e44ebde38f4753dff982ab9b5e03cf872aab8fdf53a403e999ed378154331
+  sha256: b0536e72bbc0b3cf169ac1fd00759d77aae7bb12ae378cdc75c5dc362f5de576
 
 build:
   number: 0
-  noarch: python
+  skip: true # [py<36]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -25,8 +25,6 @@ requirements:
     # Dependencies for Core Plotly Functionality:
     # retrying requests
     - tenacity >=6.2.0
-    # python 2 to 3 compatibility
-    - six >=1.15.0
 
 test:
   requires:
@@ -50,7 +48,11 @@ test:
     - plotly.express
     - plotly.express.data
     - plotly.express.colors
+    - plotly.express.trendline_functions
     - plotly.graph_objects
+    - _plotly_utils
+    - _plotly_utils.colors
+    - _plotly_future_
 
 about:
   home: https://plot.ly/python/
