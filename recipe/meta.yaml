@@ -20,7 +20,6 @@ requirements:
     - pip
     - setuptools >=40.8.0
     - wheel
-    - jupyterlab >=3.0,<4
   run:
     - python
     - packaging
