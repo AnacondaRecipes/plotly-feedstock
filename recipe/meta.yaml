@@ -24,6 +24,9 @@ requirements:
     - python
     - packaging
     - tenacity >=6.2.0
+  run_constrained:
+    - jupyterlab >=3
+    - ipywidgets >=7.6
 
 test:
   imports:
@@ -137,17 +140,17 @@ test:
     - plotly.validators.waterfall
   requires:
     - pip
-    - {{ pin_compatible('numpy') }}
+    - {{ pin_compatible("numpy") }}
     - matplotlib-base
     - pandas
   commands:
     - pip check
     # test imports requiring matplotlib
-    - python -c 'import plotly.matplotlylib; import plotly.matplotlylib.mplexporter; import plotly.matplotlylib.mplexporter.renderers'
+    - python -c "import plotly.matplotlylib; import plotly.matplotlylib.mplexporter; import plotly.matplotlylib.mplexporter.renderers"
     # test imports requiring numpy
-    - python -c 'import plotly.figure_factory'
+    - python -c "import plotly.figure_factory"
     # test imports requiring pandas
-    - python -c 'import plotly.express; import plotly.express.data; import plotly.express.colors; import plotly.express.trendline_functions'
+    - python -c "import plotly.express; import plotly.express.data; import plotly.express.colors; import plotly.express.trendline_functions"
 
 about:
   home: https://plotly.com/python
