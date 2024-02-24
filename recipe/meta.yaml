@@ -140,7 +140,7 @@ test:
     - plotly.validators.waterfall
   requires:
     - pip
-    - {{ pin_compatible("numpy") }}
+    - numpy
     - matplotlib-base
     - pandas
   commands:
