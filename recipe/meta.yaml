@@ -161,7 +161,7 @@ about:
   home: https://plotly.com/python
   license: MIT
   license_family: MIT
-  license_file: {{ environ["RECIPE_DIR"] }}/LICENSE.txt
+  license_file: LICENSE.txt
   summary: An interactive JavaScript-based visualization library for Python
   description: |
     plotly.py is an interactive, open-source, and JavaScript-based graphing
