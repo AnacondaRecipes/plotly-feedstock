@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "5.19.0" %}
+{% set version = "5.22.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5ea91a56571292ade3e3bc9bf712eba0b95a1fb0a941375d978cc79432e055f4
+  sha256: 859fdadbd86b5770ae2466e542b761b247d1c6b49daed765b95bb8c7063e7469
 
 build:
   number: 0
@@ -34,12 +34,21 @@ test:
     - plotly
     - plotly.offline
     - plotly.io
+    - plotly.matplotlylib
+    - plotly.matplotlylib.mplexporter
+    - plotly.matplotlylib.mplexporter.renderers
+    - plotly.figure_factory
     - plotly.data
     - plotly.colors
+    - plotly.express
+    - plotly.express.data
+    - plotly.express.colors
+    - plotly.express.trendline_functions
     - plotly.graph_objects
     - _plotly_utils
     - _plotly_utils.colors
     - _plotly_future_
+    - plotly.graph_objs
     - plotly.graph_objs.bar
     - plotly.graph_objs.barpolar
     - plotly.graph_objs.box
@@ -78,6 +87,7 @@ test:
     - plotly.graph_objs.scattermapbox
     - plotly.graph_objs.scatterpolar
     - plotly.graph_objs.scatterpolargl
+    - plotly.graph_objs.scattersmith
     - plotly.graph_objs.scatterternary
     - plotly.graph_objs.splom
     - plotly.graph_objs.streamtube
@@ -128,6 +138,7 @@ test:
     - plotly.validators.scattermapbox
     - plotly.validators.scatterpolar
     - plotly.validators.scatterpolargl
+    - plotly.validators.scattersmith
     - plotly.validators.scatterternary
     - plotly.validators.splom
     - plotly.validators.streamtube
@@ -145,18 +156,12 @@ test:
     - pandas
   commands:
     - pip check
-    # test imports requiring matplotlib
-    - python -c "import plotly.matplotlylib; import plotly.matplotlylib.mplexporter; import plotly.matplotlylib.mplexporter.renderers"
-    # test imports requiring numpy
-    - python -c "import plotly.figure_factory"
-    # test imports requiring pandas
-    - python -c "import plotly.express; import plotly.express.data; import plotly.express.colors; import plotly.express.trendline_functions"
 
 about:
   home: https://plotly.com/python
   license: MIT
   license_family: MIT
-  license_file: {{ environ["RECIPE_DIR"] }}/LICENSE.txt
+  license_file: LICENSE.txt
   summary: An interactive JavaScript-based visualization library for Python
   description: |
     plotly.py is an interactive, open-source, and JavaScript-based graphing
