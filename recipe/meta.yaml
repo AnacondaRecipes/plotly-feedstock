@@ -23,7 +23,6 @@ requirements:
   run:
     - python
     - packaging
-    - tenacity >=6.2.0
     - narwhals >=1.15.1
   run_constrained:
     - jupyterlab >=3
