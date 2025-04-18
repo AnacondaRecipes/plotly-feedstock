@@ -51,10 +51,12 @@ test:
     - plotly.graph_objs.candlestick
     - plotly.graph_objs.carpet
     - plotly.graph_objs.choropleth
+    - plotly.graph_objs.choroplethmap
     - plotly.graph_objs.choroplethmapbox
     - plotly.graph_objs.cone
     - plotly.graph_objs.contour
     - plotly.graph_objs.contourcarpet
+    - plotly.graph_objs.densitymap
     - plotly.graph_objs.densitymapbox
     - plotly.graph_objs.funnel
     - plotly.graph_objs.funnelarea
@@ -78,6 +80,7 @@ test:
     - plotly.graph_objs.scattercarpet
     - plotly.graph_objs.scattergeo
     - plotly.graph_objs.scattergl
+    - plotly.graph_objs.scattermap
     - plotly.graph_objs.scattermapbox
     - plotly.graph_objs.scatterpolar
     - plotly.graph_objs.scatterpolargl
@@ -92,6 +95,9 @@ test:
     - plotly.graph_objs.violin
     - plotly.graph_objs.volume
     - plotly.graph_objs.waterfall
+    - plotly.package_data
+    - plotly.package_data.datasets
+    - plotly.package_data.templates
     - plotly.validators
     - plotly.validators.bar
     - plotly.validators.barpolar
@@ -99,10 +105,12 @@ test:
     - plotly.validators.candlestick
     - plotly.validators.carpet
     - plotly.validators.choropleth
+    - plotly.validators.choroplethmap
     - plotly.validators.choroplethmapbox
     - plotly.validators.cone
     - plotly.validators.contour
     - plotly.validators.contourcarpet
+    - plotly.validators.densitymap
     - plotly.validators.densitymapbox
     - plotly.validators.frame
     - plotly.validators.funnel
@@ -127,6 +135,7 @@ test:
     - plotly.validators.scattercarpet
     - plotly.validators.scattergeo
     - plotly.validators.scattergl
+    - plotly.validators.scattermap
     - plotly.validators.scattermapbox
     - plotly.validators.scatterpolar
     - plotly.validators.scatterpolargl
