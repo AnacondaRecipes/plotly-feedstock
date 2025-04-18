@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "5.24.1" %}
+{% set version = "6.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,30 +7,29 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: dbc8ac8339d248a4bcc36e08a5659bacfe1b079390b8953533f4eb22169b4bae
+  sha256: dd8400229872b6e3c964b099be699f8d00c489a974f2cfccfad5e8240873366b
 
 build:
-  number: 1
-  skip: true  # [py<38] 
+  number: 0
+  skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - python
     - pip
-    - setuptools >=40.8.0
+    - setuptools
     - wheel
   run:
     - python
     - packaging
-    - tenacity >=6.2.0
+    - narwhals >=1.15.1
   run_constrained:
     - jupyterlab >=3
     - ipywidgets >=7.6
 
 test:
   imports:
-    - jupyterlab_plotly
     - plotly
     - plotly.offline
     - plotly.io
@@ -45,9 +44,6 @@ test:
     - plotly.express.colors
     - plotly.express.trendline_functions
     - plotly.graph_objects
-    - _plotly_utils
-    - _plotly_utils.colors
-    - _plotly_future_
     - plotly.graph_objs
     - plotly.graph_objs.bar
     - plotly.graph_objs.barpolar
@@ -55,15 +51,16 @@ test:
     - plotly.graph_objs.candlestick
     - plotly.graph_objs.carpet
     - plotly.graph_objs.choropleth
+    - plotly.graph_objs.choroplethmap
     - plotly.graph_objs.choroplethmapbox
     - plotly.graph_objs.cone
     - plotly.graph_objs.contour
     - plotly.graph_objs.contourcarpet
+    - plotly.graph_objs.densitymap
     - plotly.graph_objs.densitymapbox
     - plotly.graph_objs.funnel
     - plotly.graph_objs.funnelarea
     - plotly.graph_objs.heatmap
-    - plotly.graph_objs.heatmapgl
     - plotly.graph_objs.histogram
     - plotly.graph_objs.histogram2d
     - plotly.graph_objs.histogram2dcontour
@@ -77,13 +74,13 @@ test:
     - plotly.graph_objs.parcats
     - plotly.graph_objs.parcoords
     - plotly.graph_objs.pie
-    - plotly.graph_objs.pointcloud
     - plotly.graph_objs.sankey
     - plotly.graph_objs.scatter
     - plotly.graph_objs.scatter3d
     - plotly.graph_objs.scattercarpet
     - plotly.graph_objs.scattergeo
     - plotly.graph_objs.scattergl
+    - plotly.graph_objs.scattermap
     - plotly.graph_objs.scattermapbox
     - plotly.graph_objs.scatterpolar
     - plotly.graph_objs.scatterpolargl
@@ -98,6 +95,9 @@ test:
     - plotly.graph_objs.violin
     - plotly.graph_objs.volume
     - plotly.graph_objs.waterfall
+    - plotly.package_data
+    - plotly.package_data.datasets
+    - plotly.package_data.templates
     - plotly.validators
     - plotly.validators.bar
     - plotly.validators.barpolar
@@ -105,16 +105,17 @@ test:
     - plotly.validators.candlestick
     - plotly.validators.carpet
     - plotly.validators.choropleth
+    - plotly.validators.choroplethmap
     - plotly.validators.choroplethmapbox
     - plotly.validators.cone
     - plotly.validators.contour
     - plotly.validators.contourcarpet
+    - plotly.validators.densitymap
     - plotly.validators.densitymapbox
     - plotly.validators.frame
     - plotly.validators.funnel
     - plotly.validators.funnelarea
     - plotly.validators.heatmap
-    - plotly.validators.heatmapgl
     - plotly.validators.histogram
     - plotly.validators.histogram2d
     - plotly.validators.histogram2dcontour
@@ -128,13 +129,13 @@ test:
     - plotly.validators.parcats
     - plotly.validators.parcoords
     - plotly.validators.pie
-    - plotly.validators.pointcloud
     - plotly.validators.sankey
     - plotly.validators.scatter
     - plotly.validators.scatter3d
     - plotly.validators.scattercarpet
     - plotly.validators.scattergeo
     - plotly.validators.scattergl
+    - plotly.validators.scattermap
     - plotly.validators.scattermapbox
     - plotly.validators.scatterpolar
     - plotly.validators.scatterpolargl
