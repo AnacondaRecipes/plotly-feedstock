@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "6.0.1" %}
+{% set version = "6.3.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,26 +7,27 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: dd8400229872b6e3c964b099be699f8d00c489a974f2cfccfad5e8240873366b
+  sha256: 8840a184d18ccae0f9189c2b9a2943923fd5cae7717b723f36eef78f444e5a73
 
 build:
   number: 0
-  skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  entry_points:
+    - plotly_get_chrome = plotly.io._kaleido:plotly_get_chrome
+  skip: true  # [py<38]
 
 requirements:
   host:
-    - python
     - pip
-    - setuptools
-    - wheel
+    - python
+    - setuptools >=61
+    - jupyter-packaging >=0.10.0,<0.11
   run:
     - python
     - packaging
     - narwhals >=1.15.1
   run_constrained:
-    - jupyterlab >=3
-    - ipywidgets >=7.6
+    - kaleido >=1.0.0
 
 test:
   imports:
@@ -99,57 +100,6 @@ test:
     - plotly.package_data.datasets
     - plotly.package_data.templates
     - plotly.validators
-    - plotly.validators.bar
-    - plotly.validators.barpolar
-    - plotly.validators.box
-    - plotly.validators.candlestick
-    - plotly.validators.carpet
-    - plotly.validators.choropleth
-    - plotly.validators.choroplethmap
-    - plotly.validators.choroplethmapbox
-    - plotly.validators.cone
-    - plotly.validators.contour
-    - plotly.validators.contourcarpet
-    - plotly.validators.densitymap
-    - plotly.validators.densitymapbox
-    - plotly.validators.frame
-    - plotly.validators.funnel
-    - plotly.validators.funnelarea
-    - plotly.validators.heatmap
-    - plotly.validators.histogram
-    - plotly.validators.histogram2d
-    - plotly.validators.histogram2dcontour
-    - plotly.validators.icicle
-    - plotly.validators.image
-    - plotly.validators.indicator
-    - plotly.validators.isosurface
-    - plotly.validators.layout
-    - plotly.validators.mesh3d
-    - plotly.validators.ohlc
-    - plotly.validators.parcats
-    - plotly.validators.parcoords
-    - plotly.validators.pie
-    - plotly.validators.sankey
-    - plotly.validators.scatter
-    - plotly.validators.scatter3d
-    - plotly.validators.scattercarpet
-    - plotly.validators.scattergeo
-    - plotly.validators.scattergl
-    - plotly.validators.scattermap
-    - plotly.validators.scattermapbox
-    - plotly.validators.scatterpolar
-    - plotly.validators.scatterpolargl
-    - plotly.validators.scattersmith
-    - plotly.validators.scatterternary
-    - plotly.validators.splom
-    - plotly.validators.streamtube
-    - plotly.validators.sunburst
-    - plotly.validators.surface
-    - plotly.validators.table
-    - plotly.validators.treemap
-    - plotly.validators.violin
-    - plotly.validators.volume
-    - plotly.validators.waterfall
   requires:
     - pip
     - numpy
@@ -157,6 +107,8 @@ test:
     - pandas
   commands:
     - pip check
+    # needs kaleido >=1.0.0
+    # - plotly_get_chrome --help
 
 about:
   home: https://plotly.com/python
