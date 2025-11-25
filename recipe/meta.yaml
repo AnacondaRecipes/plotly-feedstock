@@ -1,13 +1,13 @@
 {% set name = "plotly" %}
-{% set version = "6.3.0" %}
+{% set version = "6.5.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8840a184d18ccae0f9189c2b9a2943923fd5cae7717b723f36eef78f444e5a73
+  url: https://github.com/{{ name }}/{{ name }}.py/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: a00aaa148019c00b337de7ff95c8a17b4fb412ecaed7bb4fe829ad65b7840b86
 
 build:
   number: 0
@@ -20,6 +20,7 @@ requirements:
   host:
     - pip
     - python
+    - wheel
     - setuptools >=61
     - jupyter-packaging >=0.10.0,<0.11
   run:
@@ -27,9 +28,15 @@ requirements:
     - packaging
     - narwhals >=1.15.1
   run_constrained:
-    - kaleido >=1.0.0
+    - python-kaleido >=1.1.0
 
+# E   ModuleNotFoundError: No module named 'pdfrw'
+{% set ignore_tests = " --ignore=tests/test_optional/test_kaleido/test_kaleido.py" %}
+# E   RecursionError: maximum recursion depth exceeded while calling a Python object
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_plotly_utils/validators/test_xarray_input.py" %}
 test:
+  source_files:
+    - tests
   imports:
     - plotly
     - plotly.offline
@@ -100,15 +107,25 @@ test:
     - plotly.package_data.datasets
     - plotly.package_data.templates
     - plotly.validators
+  commands:
+    - pip check
+    # needs python-kaleido >=1.1.0
+    # - plotly_get_chrome --help
+    - pytest tests {{ ignore_tests }}
   requires:
     - pip
     - numpy
     - matplotlib-base
     - pandas
-  commands:
-    - pip check
-    # needs kaleido >=1.0.0
-    # - plotly_get_chrome --help
+    - pytest
+    - xarray
+    - polars
+    - scipy
+    - requests
+    - pyarrow
+    - statsmodels
+    - ipython
+    - anywidget
 
 about:
   home: https://plotly.com/python
