@@ -1,13 +1,13 @@
 {% set name = "plotly" %}
-{% set version = "6.3.0" %}
+{% set version = "6.5.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8840a184d18ccae0f9189c2b9a2943923fd5cae7717b723f36eef78f444e5a73
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: d5d38224883fd38c1409bef7d6a8dc32b74348d39313f3c52ca998b8e447f5c8
 
 build:
   number: 0
@@ -20,14 +20,18 @@ requirements:
   host:
     - pip
     - python
-    - setuptools >=61
     - jupyter-packaging >=0.10.0,<0.11
+    - setuptools >=61
+    - hatch
+    - jupyter_packaging >=0.10.0,<0.11.dev0
+    - wheel
   run:
     - python
     - packaging
     - narwhals >=1.15.1
   run_constrained:
     - kaleido >=1.0.0
+    - python-kaleido >=1.1.0
 
 test:
   imports:
