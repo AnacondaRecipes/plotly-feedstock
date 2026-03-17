@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "6.5.0" %}
+{% set version = "6.6.0" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/{{ name }}/{{ name }}.py/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: a00aaa148019c00b337de7ff95c8a17b4fb412ecaed7bb4fe829ad65b7840b86
+  sha256: 785ad8f0bebe1f4d53dcda37fd2cd0f7cf8b1e1a528c663c08df74d20a57ad4e
 
 build:
   number: 0
@@ -32,43 +32,56 @@ requirements:
 
 # E   ModuleNotFoundError: No module named 'pdfrw'
 {% set ignore_tests = " --ignore=tests/test_optional/test_kaleido/test_kaleido.py" %}
-# E   assert np is not None
-{% set deselect_tests = " --deselect=tests/test_plotly_utils/validators/test_pandas_series_input.py::test_integer_validator_numeric_pandas" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_integer_validator.py::test_coercion_aok_list" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_number_validator.py::test_coercion_aok_list" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number_free" %}
 # E   RecursionError: maximum recursion depth exceeded while calling a Python object
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_plotly_utils/validators/test_xarray_input.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_plotly_utils/validators/test_pandas_series_input.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_plotly_utils/validators/test_string_validator.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/test_plotly_utils/validators/test_pandas_series_input.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_fig_deepcopy.py::test_deepcopy" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_colorscale_validator.py::test_acceptance_array_2" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_color_validator.py::test_rejection_aok_2D" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_any_validator.py::test_acceptance_array" %}
-# E   ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+# Numpy>=2 is not supported by some tests
+# E   AttributeError: module 'numpy' has no attribute 'in1d'. Did you mean: 'int16'?
+{% set deselect_tests = " --deselect=tests/test_optional/test_px/test_px.py::test_custom_data_scatter" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_px/test_px_functions.py::test_sunburst_treemap_with_path_color" %}
+# E   TypeError: percentile() got an unexpected keyword argument 'interpolation'
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_figure_factory/test_figure_factory.py::TestViolin::test_violin_fig" %}
+# plotly's in_values() does `if in_values:` where in_values is result of `e == v` on ndarray
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_enumerated_validator.py::test_acceptance_array_ok_re" %}
-# E   Invalid value of type 'numpy.ndarray' received for the 'prop' property of parent
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_dataarray_validator.py::test_validator_acceptance" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_integer_validator.py::test_acceptance_aok_list" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number2" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_flaglist_validator.py::test_coercion_aok" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_colorlist_validator.py::test_acceptance_aok" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_color_validator.py::test_acceptance_aok" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_angle_validator.py::test_aok_coercion" %}
+# E   ValueError: Invalid value of type 'numpy.ndarray' received for the 'prop' property
+# E   AssertionError: (assert np is not None) in copy_to_readonly_numpy_array()
+# E   RecursionError: maximum recursion depth exceeded
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_angle_validator.py::test_aok_acceptance" %}
-# >   assert validator.validate_coerce(named_colorscale) == expected
-# E   AssertionError: assert [[0.0, 'rgb(2...4, 96)'], ...] == [[0.0, '#fcff...a52c60'], ...]
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_angle_validator.py::test_aok_coercion" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_any_validator.py::test_acceptance_array" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_color_validator.py::test_acceptance_aok" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_color_validator.py::test_acceptance_aok_2D" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_color_validator.py::test_rejection_aok_2D" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_colorlist_validator.py::test_acceptance_aok" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_colorscale_validator.py::test_acceptance_named" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_colorscale_validator.py::test_acceptance_array_2" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_dataarray_validator.py::test_validator_acceptance_simple" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_dataarray_validator.py::test_validator_acceptance_homogeneous" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_fig_deepcopy.py::test_deepcopy_dataframe" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_fig_deepcopy.py::test_deepcopy_array" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_flaglist_validator.py::test_coercion_aok" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number3_free" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_any3_free" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number2_2d" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number2_12d_1d" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number2_12d_2d" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number_free_1d" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_infoarray_validator.py::test_validator_acceptance_number_free_2d" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_integer_validator.py::test_acceptance_aok_list" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_integer_validator.py::test_coercion_aok_list" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_plotly_utils/validators/test_number_validator.py::test_coercion_aok_list" %}
 # >   assert pio.renderers.default == "browser"
 # E   AssertionError: assert '' == 'browser'
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_io/test_renderers.py::test_default_renderer" %}  # [linux]
+# Polars 3.14 is not available. E ModuleNotFoundError: No module named 'polars'
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_optional/test_px" %}  # [py==314]
 # E   pyarrow.lib.ArrowInvalid: Cannot locate timezone 'CET': Timezone database not found at "C:\Users\task_176408304616546\Downloads\tzdata"
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_px/test_imshow.py::test_imshow_source_dtype_zmax" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_px/test_px_hover.py::test_date_in_hover" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_px/test_px_input.py::test_timezones" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_optional/test_px/test_trendline.py::test_trendline_on_timeseries" %}  # [win]
+
 test:
   source_files:
     - tests
@@ -151,10 +164,10 @@ test:
     - pip
     - numpy
     - matplotlib-base
-    - pandas
+    - pandas <3
     - pytest
     - xarray
-    - polars
+    - polars  # [py<314]
     - scipy
     - requests
     - pyarrow
@@ -163,6 +176,7 @@ test:
     - anywidget
     - nbformat >=4.2.0
     - scikit-image
+    - pytz
 
 about:
   home: https://plotly.com/python
