@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "6.6.0" %}
+{% set version = "6.7.0" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/{{ name }}/{{ name }}.py/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 785ad8f0bebe1f4d53dcda37fd2cd0f7cf8b1e1a528c663c08df74d20a57ad4e
+  sha256: 3cca70b7cd1ad19d0e1355886f85d4f6f8e0068133013e17c9e035287b74a1d3
 
 build:
   number: 0
@@ -20,9 +20,7 @@ requirements:
   host:
     - pip
     - python
-    - wheel
-    - setuptools >=61
-    - jupyter-packaging >=0.10.0,<0.11
+    - hatchling >=1.26
   run:
     - python
     - packaging
