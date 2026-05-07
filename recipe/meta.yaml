@@ -26,7 +26,11 @@ requirements:
     - packaging
     - narwhals >=1.15.1
   run_constrained:
-    - python-kaleido >=1.1.0
+    # Upstream's `kaleido` extra pins kaleido>=1.1.0, but pkgs/main currently
+    # only ships python-kaleido 0.2.1. Constrain to the available floor so the
+    # `conda install plotly python-kaleido` path is satisfiable. Bump to
+    # >=1.1.0 once python-kaleido 1.1+ lands on pkgs/main.
+    - python-kaleido >=0.2.1
 
 # E   ModuleNotFoundError: No module named 'pdfrw'
 {% set ignore_tests = " --ignore=tests/test_optional/test_kaleido/test_kaleido.py" %}
@@ -155,7 +159,12 @@ test:
     - plotly.validators
   commands:
     - pip check
-    # needs python-kaleido >=1.1.0
+    # TODO: re-enable once python-kaleido >=1.1.0 lands on pkgs/main and is
+    # added to test.requires below. plotly_get_chrome's body raises a
+    # ValueError before parsing --help if kaleido is missing or major < 1
+    # (plotly/io/_kaleido.py: kaleido_available() / kaleido_major() < 1),
+    # so the invocation cannot be exercised on the currently-available
+    # python-kaleido 0.2.1.
     # - plotly_get_chrome --help
     - pytest tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
@@ -181,11 +190,11 @@ about:
   license: MIT
   license_family: MIT
   license_file: LICENSE.txt
-  summary: An interactive JavaScript-based visualization library for Python
+  summary: An open-source interactive data visualization library for Python
   description: |
-    plotly.py is an interactive, open-source, and JavaScript-based graphing
+    plotly.py is an interactive, open-source, and browser-based graphing
     library for Python. Built on top of plotly.js, plotly.py is a high-level,
-    declarative charting library that includes over 30 chart types,
+    declarative charting library. plotly.js ships with over 30 chart types,
     including scientific charts, 3D graphs, statistical charts, SVG maps,
     financial charts, and more.
   doc_url: https://plotly.com/python
