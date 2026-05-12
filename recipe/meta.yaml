@@ -26,11 +26,11 @@ requirements:
     - packaging
     - narwhals >=1.15.1
   run_constrained:
-    # Upstream's `kaleido` extra pins kaleido>=1.1.0, but pkgs/main currently
-    # only ships python-kaleido 0.2.1. Constrain to the available floor so the
-    # `conda install plotly python-kaleido` path is satisfiable. Bump to
-    # >=1.1.0 once python-kaleido 1.1+ lands on pkgs/main.
-    - python-kaleido >=0.2.1
+    # Upstream's `kaleido` extra (plotly 6.7.0 pyproject.toml) pins
+    # `kaleido>=1.1.0`. python-kaleido 1.3.0 now ships on pkgs/main, so match
+    # upstream's semantic — plotly's chrome-based image-export path requires
+    # the kaleido-1.x API (`plotly_get_chrome`, `kaleido.Kaleido`).
+    - python-kaleido >=1.1.0
 
 # E   ModuleNotFoundError: No module named 'pdfrw'
 {% set ignore_tests = " --ignore=tests/test_optional/test_kaleido/test_kaleido.py" %}
@@ -159,13 +159,11 @@ test:
     - plotly.validators
   commands:
     - pip check
-    # TODO: re-enable once python-kaleido >=1.1.0 lands on pkgs/main and is
-    # added to test.requires below. plotly_get_chrome's body raises a
-    # ValueError before parsing --help if kaleido is missing or major < 1
-    # (plotly/io/_kaleido.py: kaleido_available() / kaleido_major() < 1),
-    # so the invocation cannot be exercised on the currently-available
-    # python-kaleido 0.2.1.
-    # - plotly_get_chrome --help
+    # plotly_get_chrome's body raises ValueError unless kaleido major >= 1
+    # (see plotly/io/_kaleido.py: kaleido_available() / kaleido_major() < 1).
+    # python-kaleido 1.3.0 now on pkgs/main → safe to re-enable; needs
+    # python-kaleido in test.requires below.
+    - plotly_get_chrome --help
     - pytest tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
     - pip
@@ -184,6 +182,8 @@ test:
     - nbformat >=4.2.0
     - scikit-image
     - pytz
+    # Needed for plotly_get_chrome --help (kaleido_major() >= 1 check)
+    - python-kaleido >=1.1.0
 
 about:
   home: https://plotly.com/python
