@@ -159,11 +159,12 @@ test:
     - plotly.validators
   commands:
     - pip check
-    # plotly_get_chrome's body raises ValueError unless kaleido major >= 1
-    # (see plotly/io/_kaleido.py: kaleido_available() / kaleido_major() < 1).
-    # python-kaleido 1.3.0 now on pkgs/main → safe to re-enable; needs
-    # python-kaleido in test.requires below.
-    - plotly_get_chrome --help
+    # plotly_get_chrome is unusable with `--help` because upstream's CLI does
+    # manual sys.argv parsing (plotly/io/_kaleido.py L795-847) and treats
+    # `--help` as an unrecognized argument — prints usage then `sys.exit(1)`.
+    # The `--help` line in its own usage text is documentation, not a real
+    # handler. Verify the entry point is reachable via Python instead.
+    - python -c "from plotly.io._kaleido import plotly_get_chrome; assert callable(plotly_get_chrome)"
     - pytest tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
     - pip
