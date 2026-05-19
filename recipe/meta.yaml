@@ -1,5 +1,5 @@
 {% set name = "plotly" %}
-{% set version = "6.6.0" %}
+{% set version = "6.7.0" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/{{ name }}/{{ name }}.py/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 785ad8f0bebe1f4d53dcda37fd2cd0f7cf8b1e1a528c663c08df74d20a57ad4e
+  sha256: 3cca70b7cd1ad19d0e1355886f85d4f6f8e0068133013e17c9e035287b74a1d3
 
 build:
   number: 0
@@ -20,14 +20,16 @@ requirements:
   host:
     - pip
     - python
-    - wheel
-    - setuptools >=61
-    - jupyter-packaging >=0.10.0,<0.11
+    - hatchling >=1.26
   run:
     - python
     - packaging
     - narwhals >=1.15.1
   run_constrained:
+    # Upstream's `kaleido` extra (plotly 6.7.0 pyproject.toml) pins
+    # `kaleido>=1.1.0`. python-kaleido 1.3.0 now ships on pkgs/main, so match
+    # upstream's semantic — plotly's chrome-based image-export path requires
+    # the kaleido-1.x API (`plotly_get_chrome`, `kaleido.Kaleido`).
     - python-kaleido >=1.1.0
 
 # E   ModuleNotFoundError: No module named 'pdfrw'
@@ -157,8 +159,12 @@ test:
     - plotly.validators
   commands:
     - pip check
-    # needs python-kaleido >=1.1.0
-    # - plotly_get_chrome --help
+    # plotly_get_chrome is unusable with `--help` because upstream's CLI does
+    # manual sys.argv parsing (plotly/io/_kaleido.py L795-847) and treats
+    # `--help` as an unrecognized argument — prints usage then `sys.exit(1)`.
+    # The `--help` line in its own usage text is documentation, not a real
+    # handler. Verify the entry point is reachable via Python instead.
+    - python -c "from plotly.io._kaleido import plotly_get_chrome; assert callable(plotly_get_chrome)"
     - pytest tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
     - pip
@@ -177,17 +183,19 @@ test:
     - nbformat >=4.2.0
     - scikit-image
     - pytz
+    # Needed for plotly_get_chrome --help (kaleido_major() >= 1 check)
+    - python-kaleido >=1.1.0
 
 about:
   home: https://plotly.com/python
   license: MIT
   license_family: MIT
   license_file: LICENSE.txt
-  summary: An interactive JavaScript-based visualization library for Python
+  summary: An open-source interactive data visualization library for Python
   description: |
-    plotly.py is an interactive, open-source, and JavaScript-based graphing
+    plotly.py is an interactive, open-source, and browser-based graphing
     library for Python. Built on top of plotly.js, plotly.py is a high-level,
-    declarative charting library that includes over 30 chart types,
+    declarative charting library. plotly.js ships with over 30 chart types,
     including scientific charts, 3D graphs, statistical charts, SVG maps,
     financial charts, and more.
   doc_url: https://plotly.com/python
