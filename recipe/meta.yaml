@@ -10,7 +10,7 @@ source:
   sha256: 147ce0b9b55618fff26f4907d25d605c78a8710d7a08cd648e816149f1ead41e
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - plotly_get_chrome = plotly.io._kaleido:plotly_get_chrome
@@ -156,7 +156,7 @@ test:
     # The `--help` line in its own usage text is documentation, not a real
     # handler. Verify the entry point is reachable via Python instead.
     - python -c "from plotly.io._kaleido import plotly_get_chrome; assert callable(plotly_get_chrome)"
-    - pytest tests {{ ignore_tests }} {{ deselect_tests }}
+    - python -X utf8 -m pytest tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
     - pip
     - numpy
